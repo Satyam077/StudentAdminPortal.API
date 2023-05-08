@@ -31,11 +31,19 @@ namespace StudentAdminPortal.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo 
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "StudentAdminPortal.API", Version = "v1" 
+                    Title = "StudentAdminPortal.API",
+                    Version = "v1"
                 });
             });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo 
+            //    {
+            //        Title = "StudentAdminPortal.API", Version = "v1" 
+            //    });
+            //});
 
             services.AddAutoMapper(typeof(Startup).Assembly);
         }
@@ -53,6 +61,8 @@ namespace StudentAdminPortal.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors("angularApplication");
 
             app.UseAuthorization();
 
