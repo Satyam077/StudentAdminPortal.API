@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentAdminPortal.API.DataModels;
+using StudentAdminPortal.API.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Address = StudentAdminPortal.API.DataModels.Address;
+using Gender = StudentAdminPortal.API.DataModels.Gender;
+using Student = StudentAdminPortal.API.DataModels.Student;
 
 namespace StudentAdminPortal.API.Repositories
 {
@@ -20,8 +24,10 @@ namespace StudentAdminPortal.API.Repositories
         public async Task<List<Student>> GetStudentsAsync()
         
             {
-                return await context.Student.Include(nameof(Gender)).Include(nameof(Address))
-                    .ToListAsync(); return await context.Student.Include(nameof(Gender)).Include(nameof(Address)).ToListAsync();
+                return await context.Student
+                .Include(nameof(Gender))
+                .Include(nameof(Address))
+                .ToListAsync(); 
             }
 
             public async Task<Student> GetStudentAsync(Guid studentId)
@@ -82,6 +88,18 @@ namespace StudentAdminPortal.API.Repositories
             }
             return null;
         }
+
+        public async Task<Student> AddStudent(Student request)
+        {
+            var student = await  context.Student.AddAsync(request);
+            await context.SaveChangesAsync(); 
+            return student.Entity;
+            
+
+           
+        }
+
+       
     }
     }
 
