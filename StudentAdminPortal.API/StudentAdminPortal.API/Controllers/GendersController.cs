@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StudentAdminPortal.API.DataModels;
 using StudentAdminPortal.API.Repositories;
 using System.Collections.Generic;
@@ -10,29 +9,37 @@ namespace StudentAdminPortal.API.Controllers
 {
     public class GendersController : Controller
     {
-        private readonly IStudentRepository studentRepository;
-        private readonly IMapper mapper;
+        private readonly StudentRepository studentRepository;
 
-        public GendersController(IStudentRepository studentRepository, IMapper mapper)
+        public GendersController(StudentRepository studentRepository)
         {
             this.studentRepository = studentRepository;
-            this.mapper = mapper;
         }
 
 
 
+        //[HttpGet]
+        //[Route("[controller]/genders")]
+        //public IActionResult GetAllGenders()
+        //{
+        //    var genderList = studentRepository.GetGendersAsync();
+        //    if (genderList == null | !genderList.Any())
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(genderList);
+        //}
         [HttpGet]
         [Route("[controller]/genders")]
-        public async Task<IActionResult> GetAllGenders()
+        public IActionResult GetAllGenders()
         {
-            var genderList = await studentRepository.GetGendersAsync();
+            var genderList = studentRepository.GetGendersAsync();
+            if(genderList == null | !genderList.Any()){
 
-            if (genderList == null | !genderList.Any())
-            {
                 return NotFound();
-            }
-            return Ok(mapper.Map<List<Gender>>(genderList));
-
+            } 
+            return Ok(genderList);
         }
     }
 }
